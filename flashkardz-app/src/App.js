@@ -11,7 +11,7 @@ function App() {
           Flashkard
         </h1>
         <p>
-          Making studying less dry
+          Making studying less dry.
         </p>
         <a
           className="App-link"
