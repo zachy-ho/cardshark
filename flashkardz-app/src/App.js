@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>
-          Flashkardz
+          Flashkardzasdfsa
         </h1>
         <p>
           Making studying less dry
