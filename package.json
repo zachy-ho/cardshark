@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "husky": "^6.0.0",
+    "lerna": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream pre-commit --since HEAD --exclude-dependents"
+    }
+  },
+  "name": "flashkardz"
+}
