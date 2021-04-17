@@ -11,7 +11,7 @@ class Answer extends Component {
   constructor() {
     super();
     this.state = {
-      topicId: '',
+      topic_id: '',
       card_id: '',
       answers: [],
       card: {},
@@ -25,13 +25,13 @@ class Answer extends Component {
       card_id: cardId,
       topic_id: topicId,
     });
-    const cardsRef = firebase.firestore().collection('topics/' + topicId + '/cards').doc(cardId);
+    const cardsRef = firebase.firestore().collection(`topics/${topicId}/cards`).doc(cardId);
     cardsRef.get().then((val) => {
       this.setState({
         card: val.data(),
       });
     });
-    const answerRef = firebase.firestore().collection('topics/' + topicId + '/cards/' + cardId + '/answers');
+    const answerRef = firebase.firestore().collection(`topics/${topicId}/cards/${cardId}/answers`);
     answerRef.get().then((snapshot) => {
       const newAnswers = [];
       snapshot.forEach((doc) => {
@@ -49,12 +49,14 @@ class Answer extends Component {
 
   handleVoteUp(answer, votes) {
     const batch = firebase.firestore().batch();
-    const answerRef = firebase.firestore().collection('topics/' + this.state.topic_id + '/cards/' + this.state.card_id + '/answers').doc(answer.id);
+    const answerRef = firebase.firestore().collection(
+      `topics/${this.state.topic_id}/cards/${this.state.card_id}/answers`,
+    ).doc(answer.id);
     const newVote = votes + 1;
     batch.update(answerRef, { votes: newVote });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
-      const newAnswers = this.state.answers;
+      const newAnswers = [...this.state.answers];
       newAnswers[index].votes = votes + 1;
       this.setState({
         answers: newAnswers,
@@ -64,12 +66,12 @@ class Answer extends Component {
 
   handleVoteDown(answer, votes) {
     const batch = firebase.firestore().batch();
-    const answerRef = firebase.firestore().collection('topics/' + this.state.topic_id + '/cards/' + this.state.card_id + '/answers').doc(answer.id);
+    const answerRef = firebase.firestore().collection(`topics/${this.state.topic_id}/cards/${this.state.card_id}/answers`).doc(answer.id);
     const newVote = votes + 1;
     batch.update(answerRef, { votes: newVote });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
-      const newAnswers = this.state.answers;
+      const newAnswers = [...this.state.answers];
       if (votes > 0) {
         newAnswers[index].votes = votes - 1;
       }

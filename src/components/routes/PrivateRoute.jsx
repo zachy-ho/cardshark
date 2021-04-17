@@ -7,7 +7,7 @@ const PrivateRoute = ({ exact, component, path }) => (
   <>
     <NavBar />
     <div className={styles.pageContent}>
-      <Route exact component={component} path={path} />
+      <Route exact={exact} component={component} path={path} />
     </div>
   </>
 );

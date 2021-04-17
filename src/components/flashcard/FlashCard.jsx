@@ -9,7 +9,7 @@ const sides = {
   BACK: 1,
 };
 
-const FlashCard = ({ question, answer }) => {
+const FlashCard = ({ question, answer, seeAnswers }) => {
   const [currentSide, setCurrentSide] = useState(sides.FRONT);
 
   const handleBtnClicked = () => {
@@ -35,7 +35,9 @@ const FlashCard = ({ question, answer }) => {
         >
           Question
         </Button>
-        <Button>
+        <Button
+          onClick={() => seeAnswers()}
+        >
           See all answers
         </Button>
       </>
