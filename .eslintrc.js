@@ -22,5 +22,8 @@ module.exports = {
     'react/destructuring-assignment': [0],
     'react/button-has-type': [0],
     'arrow-body-style': [0],
+    'no-unused-vars': 'warn',
+    'react/prop-types': 0,
+    'import/no-unresolved': [0],
   },
 };
