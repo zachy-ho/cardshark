@@ -6,15 +6,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import firebase from '../../firebase';
 import cardImage from '../../cardImage.jpg';
+import styles from './Home.module.scss';
 
 class Home extends Component {
   constructor() {
     super();
     this.state = {
       topics: [],
+      isLoaded: false,
     };
   }
 
@@ -29,21 +31,28 @@ class Home extends Component {
         });
         this.setState({
           topics: newTopics,
+          isLoaded: true,
         });
       });
     });
   }
 
-  render() {
+  content() {
     return (
       <Container>
+        <Typography variant="h2" gutterBottom className={styles.headTitle}>
+          Topics
+        </Typography>
         <Grid container spacing={4} maxWidth="md">
           {this.state.topics.map((topic) => {
             return (
-              <Grid item key={topic.id} xs={12} sm={6} md={4}>
+              <Grid item key={topic.id} xs={12} sm={4} md={3}>
                 <Card>
                   <CardActionArea>
                     <CardMedia
+                      component="img"
+                      alt="Contemplative Reptile"
+                      height="140"
                       image={cardImage}
                       title="Image title"
                     />
@@ -59,6 +68,15 @@ class Home extends Component {
           })}
         </Grid>
       </Container>
+    );
+  }
+
+  render() {
+    if (this.state.isLoaded) {
+      return this.content();
+    }
+    return (
+      <Container><CircularProgress /></Container>
     );
   }
 }

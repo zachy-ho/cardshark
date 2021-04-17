@@ -1,9 +1,13 @@
 import React from 'react';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 const NavBar = () => (
-  <AppBar>
-    <Toolbar />
+  <AppBar position="static">
+    <Toolbar>
+      <Typography variant="h6">
+        Flashkardz
+      </Typography>
+    </Toolbar>
   </AppBar>
 );
 
