@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routes/PrivateRoute';
 import Home from './components/pages/Home';
 import DeckView from './components/pages/DeckView';
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <PrivateRoute path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute path="/deck" component={DeckView} />
         </Switch>
       </Router>
