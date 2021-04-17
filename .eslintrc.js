@@ -25,5 +25,9 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/prop-types': 0,
     'import/no-unresolved': [0],
+    'prefer-template': [0],
+    'react/no-unused-state': [0],
+    'class-methods-use-this': [0],
+    'react/no-access-state-in-setstate': [0],
   },
 };
