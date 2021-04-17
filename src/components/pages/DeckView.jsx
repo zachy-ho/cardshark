@@ -19,6 +19,7 @@ const DeckView = (props) => {
 
   // Collect flashcards given the topic
   useEffect(() => {
+    console.log('hi1');
     const cardsRef = db.collection(`topics/${topicId}/cards`);
     cardsRef.withConverter(flashcardConverter).get().then((snapshot) => {
       const cardObjs = [];

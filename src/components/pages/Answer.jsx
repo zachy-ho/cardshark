@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Typography } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import {
+  Container, Typography, Avatar,
+  List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction,
+  IconButton, Divider, colors,
+} from '@material-ui/core';
+import { ThumbUpAltOutlined, ThumbDownAltOutlined } from '@material-ui/icons';
 
 import firebase from '../../firebase';
 
@@ -39,6 +40,8 @@ class Answer extends Component {
           id: doc.id,
           answer: doc.data().answer,
           votes: doc.data().votes,
+          votedUp: false,
+          votedDown: false,
         });
         this.setState({
           answers: newAnswers,
@@ -52,12 +55,27 @@ class Answer extends Component {
     const answerRef = firebase.firestore().collection(
       `topics/${this.state.topic_id}/cards/${this.state.card_id}/answers`,
     ).doc(answer.id);
-    const newVote = votes + 1;
-    batch.update(answerRef, { votes: newVote });
+
+    let newVotes;
+    let newVoteUp;
+    const newVoteDown = false;
+    if (!answer.votedUp) {
+      newVotes = votes + 1;
+      newVoteUp = true;
+      if (answer.votedDown) {
+        newVotes += 1;
+      }
+    } else {
+      newVotes = votes - 1;
+      newVoteUp = false;
+    }
+    batch.update(answerRef, { votes: newVotes });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
       const newAnswers = [...this.state.answers];
-      newAnswers[index].votes = votes + 1;
+      newAnswers[index].votes = newVotes;
+      newAnswers[index].votedUp = newVoteUp;
+      newAnswers[index].votedDown = newVoteDown;
       this.setState({
         answers: newAnswers,
       });
@@ -68,13 +86,27 @@ class Answer extends Component {
     const batch = firebase.firestore().batch();
     const answerRef = firebase.firestore().collection(`topics/${this.state.topic_id}/cards/${this.state.card_id}/answers`).doc(answer.id);
     const newVote = votes + 1;
+
+    let newVotes;
+    const newVoteUp = false;
+    let newVoteDown;
+    if (!answer.votedDown) {
+      newVotes = votes - 1;
+      newVoteDown = true;
+      if (answer.votedUp) {
+        newVotes -= 1;
+      }
+    } else {
+      newVotes = votes + 1;
+      newVoteDown = false;
+    }
     batch.update(answerRef, { votes: newVote });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
       const newAnswers = [...this.state.answers];
-      if (votes > 0) {
-        newAnswers[index].votes = votes - 1;
-      }
+      newAnswers[index].votes = newVotes;
+      newAnswers[index].votedUp = newVoteUp;
+      newAnswers[index].votedDown = newVoteDown;
       this.setState({
         answers: newAnswers,
       });
@@ -83,43 +115,51 @@ class Answer extends Component {
 
   render() {
     return (
-      <Container>
+      <>
+        <Container>
+          <section>
+            <Typography variant="h2" component="h1" gutterBottom>
+              Answers
+            </Typography>
+            <Typography variant="h5" component="h2" gutterBottom>
+              {this.state.card.question}
+            </Typography>
+          </section>
+          <List>
+            {this.state.answers.map((answer) => {
+              return (
+                <>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar alt="Pepega" src="../../assets/pepega.png" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={answer.answer}
+                      secondary={`Votes: ${answer.votes}`}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton onClick={() => this.handleVoteUp(answer, answer.votes)}>
+                        <ThumbUpAltOutlined style={answer.votedUp
+                          ? { color: colors.green[500] }
+                          : {}}
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => this.handleVoteDown(answer, answer.votes)}>
+                        <ThumbDownAltOutlined style={answer.votedDown
+                          ? { color: colors.red[500] }
+                          : {}}
+                        />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider />
+                </>
 
-        <section>
-          <Typography variant="h2" component="h1" gutterBottom>
-            Answers
-          </Typography>
-          <Typography variant="h5" component="h2" gutterBottom>
-            {this.state.card.question}
-          </Typography>
-        </section>
-        <section className="display-item">
-          <div className="wrapper">
-            <ul>
-              {this.state.answers.map((answer) => {
-                return (
-                  <Card key={answer.id}>
-                    <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
-                        {answer.answer}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        {answer.votes}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={() => this.handleVoteUp(answer, answer.votes)}>Vote Up</Button>
-                    </CardActions>
-                    <CardActions>
-                      <Button size="small" onClick={() => this.handleVoteDown(answer, answer.votes)}>Vote Down</Button>
-                    </CardActions>
-                  </Card>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
-      </Container>
+              );
+            })}
+          </List>
+        </Container>
+      </>
     );
   }
 }
