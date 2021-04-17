@@ -16,15 +16,6 @@ class Home extends Component {
     this.state = {
       topics: [],
     };
-    const useStyles = makeStyles({
-      root: {
-        maxWidth: 345,
-      },
-      media: {
-        height: 140,
-      },
-    });
-    this.classes = useStyles();
   }
 
   componentDidMount() {
@@ -32,7 +23,10 @@ class Home extends Component {
     topicRef.get().then((snapshot) => {
       const newTopics = [];
       snapshot.forEach((doc) => {
-        newTopics.push(doc.data());
+        newTopics.push({
+          id: doc.id,
+          title: doc.data().title,
+        });
         this.setState({
           topics: newTopics,
         });
@@ -50,7 +44,6 @@ class Home extends Component {
                 <Card>
                   <CardActionArea>
                     <CardMedia
-                      className={this.classes.media}
                       image={cardImage}
                       title="Image title"
                     />
