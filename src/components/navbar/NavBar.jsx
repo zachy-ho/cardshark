@@ -7,7 +7,7 @@ import { AccountCircle } from '@material-ui/icons';
 import styles from './NavBar.module.scss';
 
 const NavBar = () => (
-  <AppBar>
+  <AppBar position="static">
     <Toolbar className={styles.toolbar}>
       <Link className={styles.homeLink} to="/">
         <Typography variant="h4">

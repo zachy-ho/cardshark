@@ -47,8 +47,8 @@ class Home extends Component {
         <Grid container spacing={4} maxWidth="md">
           {this.state.topics.map((topic) => {
             return (
-              <Link to={`/topics/${topic.id}`}>
-                <Grid item key={topic.id} xs={12} sm={4} md={3}>
+              <Grid item key={topic.id} xs={12} sm={4} md={3}>
+                <Link to={`/topics/${topic.id}`}>
                   <Card>
                     <CardActionArea>
                       <CardMedia
@@ -65,8 +65,8 @@ class Home extends Component {
                       </CardContent>
                     </CardActionArea>
                   </Card>
-                </Grid>
-              </Link>
+                </Link>
+              </Grid>
             );
           })}
         </Grid>
