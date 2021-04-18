@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import firebase from '../../firebase';
 
@@ -15,6 +16,8 @@ class Answer extends Component {
       card_id: '',
       answers: [],
       card: {},
+      isCardLoaded: false,
+      isAnswerLoaded: false,
     };
   }
 
@@ -28,6 +31,7 @@ class Answer extends Component {
     const cardsRef = firebase.firestore().collection('topics/' + topicId + '/cards').doc(cardId);
     cardsRef.get().then((val) => {
       this.setState({
+        isCardLoaded: true,
         card: val.data(),
       });
     });
@@ -41,6 +45,7 @@ class Answer extends Component {
           votes: doc.data().votes,
         });
         this.setState({
+          isAnswerLoaded: true,
           answers: newAnswers,
         });
       });
@@ -65,7 +70,7 @@ class Answer extends Component {
   handleVoteDown(answer, votes) {
     const batch = firebase.firestore().batch();
     const answerRef = firebase.firestore().collection('topics/' + this.state.topic_id + '/cards/' + this.state.card_id + '/answers').doc(answer.id);
-    const newVote = votes + 1;
+    const newVote = votes - 1;
     batch.update(answerRef, { votes: newVote });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
@@ -79,10 +84,9 @@ class Answer extends Component {
     });
   }
 
-  render() {
+  content() {
     return (
       <Container>
-
         <section>
           <Typography variant="h2" component="h1" gutterBottom>
             Answers
@@ -118,6 +122,15 @@ class Answer extends Component {
           </div>
         </section>
       </Container>
+    );
+  }
+
+  render() {
+    if (this.state.isAnswerLoaded && this.state.isCardLoaded) {
+      return this.content();
+    }
+    return (
+      <Container><CircularProgress /></Container>
     );
   }
 }
