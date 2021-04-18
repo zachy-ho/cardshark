@@ -118,7 +118,7 @@ class Answer extends Component {
     return (
       <>
         <Container>
-          <Link to={`/topic/${this.state.topic_id}`}>
+          <Link to={`/topics/${this.state.topic_id}`}>
             <p>
               &lt; back to deck
             </p>
