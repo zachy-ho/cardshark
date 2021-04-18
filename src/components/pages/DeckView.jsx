@@ -19,7 +19,6 @@ const DeckView = (props) => {
 
   // Collect flashcards given the topic
   useEffect(() => {
-    console.log('hi1');
     const cardsRef = db.collection(`topics/${topicId}/cards`);
     cardsRef.withConverter(flashcardConverter).get().then((snapshot) => {
       const cardObjs = [];
@@ -51,7 +50,7 @@ const DeckView = (props) => {
   }, []);
 
   const seeAnswers = () => {
-    history.push(`/topic/${topicId}/cards/${cards[currentCardIndex].id}/answers`);
+    history.push(`/topics/${topicId}/cards/${cards[currentCardIndex].id}/answers`);
   };
 
   const displayCards = () => {

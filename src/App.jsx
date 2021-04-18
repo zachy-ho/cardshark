@@ -12,8 +12,8 @@ function App() {
       <Router>
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute exact path="/topic/:topic_id" component={DeckView} />
-          <PrivateRoute path="/topic/:topic_id/cards/:id/answers" component={Answer} />
+          <PrivateRoute exact path="/topics/:topic_id" component={DeckView} />
+          <PrivateRoute path="/topics/:topic_id/cards/:id/answers" component={Answer} />
         </Switch>
       </Router>
     </div>
