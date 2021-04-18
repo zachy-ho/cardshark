@@ -6,6 +6,7 @@ import {
   IconButton, Divider, colors, CircularProgress,
 } from '@material-ui/core';
 import { ThumbUpAltOutlined, ThumbDownAltOutlined } from '@material-ui/icons';
+import styles from './Answer.module.scss';
 
 import firebase from '../../firebase';
 
@@ -119,9 +120,14 @@ class Answer extends Component {
 
   content() {
     return (
-      <>
+      <div className={styles.paddedWrapper}>
         <Container>
-          <Link to={`/topics/${this.state.topic_id}`}>
+          <Link
+            to={{
+              pathname: `/topics/${this.state.topic_id}`,
+              state: { topicTitle: this.props.location.state.topicTitle },
+            }}
+          >
             <p>
               &lt; back to deck
             </p>
@@ -143,8 +149,8 @@ class Answer extends Component {
                       <Avatar alt="Pepega" src="../../assets/pepega.png" />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={answer.answer}
-                      secondary={`Votes: ${answer.votes}`}
+                      primary={<p>answer.answer</p>}
+                      secondary={<p>{`Votes: ${answer.votes}`}</p>}
                     />
                     <ListItemSecondaryAction>
                       <IconButton onClick={() => this.handleVoteUp(answer, answer.votes)}>
@@ -168,7 +174,7 @@ class Answer extends Component {
             })}
           </List>
         </Container>
-      </>
+      </div>
     );
   }
 

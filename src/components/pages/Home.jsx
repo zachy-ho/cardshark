@@ -40,37 +40,44 @@ class Home extends Component {
 
   content() {
     return (
-      <Container>
-        <Typography variant="h2" gutterBottom className={styles.headTitle}>
-          Topics
-        </Typography>
-        <Grid container spacing={4} maxWidth="md">
-          {this.state.topics.map((topic) => {
-            return (
-              <Grid item key={topic.id} xs={12} sm={4} md={3}>
-                <Link to={`/topics/${topic.id}`}>
-                  <Card>
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        height="140"
-                        image={cardImage}
-                        title="Image title"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {topic.title}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Link>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Container>
+      <div className={styles.paddedWrapper}>
+        <Container>
+          <Typography variant="h2" gutterBottom className={styles.headTitle}>
+            Topics
+          </Typography>
+          <Grid container spacing={4} maxWidth="md">
+            {this.state.topics.map((topic) => {
+              return (
+                <Grid item key={topic.id} xs={12} sm={4} md={3}>
+                  <Link
+                    to={{
+                      pathname: `/topics/${topic.id}`,
+                      state: { topicTitle: topic.title },
+                    }}
+                  >
+                    <Card>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          alt="Contemplative Reptile"
+                          height="140"
+                          image={cardImage}
+                          title="Image title"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {topic.title}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Link>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Container>
+      </div>
     );
   }
 

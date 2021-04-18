@@ -18,4 +18,9 @@ html {
 
 :root {
   --navbar-height: 64px;
+  --padding-md: 48px;
+}
+
+p {
+  font-size: 1.8rem;
 }

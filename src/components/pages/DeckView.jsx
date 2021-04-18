@@ -16,6 +16,7 @@ const DeckView = (props) => {
   const history = useHistory();
 
   const topicId = props.match.params.topic_id;
+  const { topicTitle } = props.location.state;
 
   // Collect flashcards given the topic
   useEffect(() => {
@@ -50,7 +51,10 @@ const DeckView = (props) => {
   }, []);
 
   const seeAnswers = () => {
-    history.push(`/topics/${topicId}/cards/${cards[currentCardIndex].id}/answers`);
+    history.push({
+      pathname: `/topics/${topicId}/cards/${cards[currentCardIndex].id}/answers`,
+      state: { topicTitle },
+    });
   };
 
   const displayCards = () => {
@@ -96,6 +100,9 @@ const DeckView = (props) => {
 
   return (
     <div className={styles.view}>
+      <h1>
+        {topicTitle}
+      </h1>
       <div className={styles.deck}>
         <div className={styles.card}>
           {displayCards()}
