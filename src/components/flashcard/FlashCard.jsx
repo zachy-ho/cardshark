@@ -9,7 +9,7 @@ const sides = {
   BACK: 1,
 };
 
-const FlashCard = ({ question, answer }) => {
+const FlashCard = ({ question, answer, seeAnswers }) => {
   const [currentSide, setCurrentSide] = useState(sides.FRONT);
 
   const handleBtnClicked = () => {
@@ -35,9 +35,24 @@ const FlashCard = ({ question, answer }) => {
         >
           Question
         </Button>
-        <Button>
+        <Button
+          onClick={() => seeAnswers()}
+        >
           See all answers
         </Button>
+      </>
+    );
+  };
+
+  const showFlashCardRear = () => {
+    return (
+      <>
+        <p>
+          {`Top voted answer (${answer.votes})`}
+        </p>
+        <p>
+          {answer.answer}
+        </p>
       </>
     );
   };
@@ -45,7 +60,7 @@ const FlashCard = ({ question, answer }) => {
   return (
     <Card className={styles.card}>
       <CardContent className={styles.content}>
-        {currentSide === sides.FRONT ? question : answer}
+        {currentSide === sides.FRONT ? question : showFlashCardRear()}
       </CardContent>
       <CardActions className={styles.actions}>
         {actions(currentSide)}

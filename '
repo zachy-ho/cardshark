@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Container, Typography, Avatar,
   List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction,
-  IconButton, Divider, colors, CircularProgress,
+  IconButton, Divider, colors,
 } from '@material-ui/core';
 import { ThumbUpAltOutlined, ThumbDownAltOutlined } from '@material-ui/icons';
 
@@ -17,8 +17,6 @@ class Answer extends Component {
       card_id: '',
       answers: [],
       card: {},
-      isCardLoaded: false,
-      isAnswerLoaded: false,
     };
   }
 
@@ -32,7 +30,6 @@ class Answer extends Component {
     const cardsRef = firebase.firestore().collection(`topics/${topicId}/cards`).doc(cardId);
     cardsRef.get().then((val) => {
       this.setState({
-        isCardLoaded: true,
         card: val.data(),
       });
     });
@@ -48,7 +45,6 @@ class Answer extends Component {
           votedDown: false,
         });
         this.setState({
-          isAnswerLoaded: true,
           answers: newAnswers,
         });
       });
@@ -90,6 +86,7 @@ class Answer extends Component {
   handleVoteDown(answer, votes) {
     const batch = firebase.firestore().batch();
     const answerRef = firebase.firestore().collection(`topics/${this.state.topic_id}/cards/${this.state.card_id}/answers`).doc(answer.id);
+    const newVote = votes + 1;
 
     let newVotes;
     const newVoteUp = false;
@@ -104,7 +101,7 @@ class Answer extends Component {
       newVotes = votes + 1;
       newVoteDown = false;
     }
-    batch.update(answerRef, { votes: newVotes });
+    batch.update(answerRef, { votes: newVote });
     batch.commit().then(() => {
       const index = this.state.answers.indexOf(answer);
       const newAnswers = [...this.state.answers];
@@ -117,11 +114,12 @@ class Answer extends Component {
     });
   }
 
-  content() {
+  render() {
+    const { topic_id } = this.state;
     return (
       <>
         <Container>
-          <Link to={`/topics/${this.state.topic_id}`}>
+          <Link to={`/topic/${topic_id}`}>
             <p>
               &lt; back to deck
             </p>
@@ -169,15 +167,6 @@ class Answer extends Component {
           </List>
         </Container>
       </>
-    );
-  }
-
-  render() {
-    if (this.state.isAnswerLoaded && this.state.isCardLoaded) {
-      return this.content();
-    }
-    return (
-      <Container><CircularProgress /></Container>
     );
   }
 }
