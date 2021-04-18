@@ -1,9 +1,25 @@
 import React from 'react';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import {
+  AppBar, Toolbar, IconButton, Typography,
+} from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import styles from './NavBar.module.scss';
 
 const NavBar = () => (
   <AppBar>
-    <Toolbar />
+    <Toolbar className={styles.toolbar}>
+      <Link className={styles.homeLink} to="/">
+        <Typography variant="h4">
+          flashkardz
+        </Typography>
+      </Link>
+      <div>
+        <IconButton>
+          <AccountCircle />
+        </IconButton>
+      </div>
+    </Toolbar>
   </AppBar>
 );
 

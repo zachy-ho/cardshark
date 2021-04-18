@@ -115,10 +115,11 @@ class Answer extends Component {
   }
 
   render() {
+    const { topic_id } = this.state;
     return (
       <>
         <Container>
-          <Link to={`/topic/${this.state.topic_id}`}>
+          <Link to={`/topic/${topic_id}`}>
             <p>
               &lt; back to deck
             </p>

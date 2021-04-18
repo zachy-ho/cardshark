@@ -63,7 +63,7 @@ const DeckView = (props) => {
     return (
       <FlashCard
         question={cards[currentCardIndex]?.question}
-        answer={cards[currentCardIndex]?.answers[0]?.answer}
+        answer={cards[currentCardIndex]?.answers[0]}
         seeAnswers={seeAnswers}
       />
     );

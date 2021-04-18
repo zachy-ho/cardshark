@@ -44,10 +44,23 @@ const FlashCard = ({ question, answer, seeAnswers }) => {
     );
   };
 
+  const showFlashCardRear = () => {
+    return (
+      <>
+        <p>
+          {`Top voted answer (${answer.votes})`}
+        </p>
+        <p>
+          {answer.answer}
+        </p>
+      </>
+    );
+  };
+
   return (
     <Card className={styles.card}>
       <CardContent className={styles.content}>
-        {currentSide === sides.FRONT ? question : answer}
+        {currentSide === sides.FRONT ? question : showFlashCardRear()}
       </CardContent>
       <CardActions className={styles.actions}>
         {actions(currentSide)}
