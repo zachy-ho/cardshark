@@ -149,7 +149,7 @@ class Answer extends Component {
                       <Avatar alt="Pepega" src="../../assets/pepega.png" />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={<p>answer.answer</p>}
+                      primary={<p>{answer.answer}</p>}
                       secondary={<p>{`Votes: ${answer.votes}`}</p>}
                     />
                     <ListItemSecondaryAction>

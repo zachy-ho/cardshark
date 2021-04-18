@@ -60,7 +60,7 @@ const FlashCard = ({ question, answer, seeAnswers }) => {
   return (
     <Card className={styles.card}>
       <CardContent className={styles.content}>
-        {currentSide === sides.FRONT ? <p>question</p> : showFlashCardRear()}
+        {currentSide === sides.FRONT ? <p>{question}</p> : showFlashCardRear()}
       </CardContent>
       <CardActions className={styles.actions}>
         {actions(currentSide)}
